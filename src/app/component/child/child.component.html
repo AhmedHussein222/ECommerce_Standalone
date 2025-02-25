@@ -1,0 +1,89 @@
+<div
+  class="d-flex flex-wrap justify-content-around align-content-center text-center gap-1 px-5"
+>
+  @for (item of productSearch; track item.id) { @if
+  (cat.includes(item.categoryId)) {
+
+  <div class="card col-3 mb-4" appRounded>
+    @if (!IsPurshased) {
+    <img
+      class="card-img-top m-auto w-50"
+      width="200"
+      height="200"
+      [id]="item.id"
+      src="{{ item.productImgUrl }}"
+      alt="Title"
+    />
+    } @if(IsPurshased) {
+
+    <div
+      class="bg-primary p-5 fs-5 card-img-top m-auto d-none h-50"
+      [id]="'div' + item.id"
+    >
+      Thanks for purchasing from our Store {{ ClientName }}
+    </div>
+
+    }
+
+    <div class="card-body">
+      <h5 class="card-title">{{ item.productName }}</h5>
+
+      <div class="text-start">
+  
+        <p class="card-text m-0">
+          Price : {{ item.productPrice | currency : "EGP" }}
+        </p>
+        <p
+          class="card-text"
+          [ngClass]="{
+            'bg-warning': item.productQuantity == 1,
+            'bg-secondary': item.productQuantity > 1
+          }"
+        >
+          Quantity : {{ item.productQuantity }} Item @switch
+          (item.productQuantity) { @case (0) {
+          <span class="ps-5"> Empty</span>
+
+          } @case (1) {
+          <span class="ps-5"> Last one item in stock</span>
+
+          } @case (2) {
+          <span class="ps-5"> Last tow item in stock</span>
+
+          } }
+        </p>
+      </div>
+
+      <button
+        type="button"
+        #btn
+        (click)="addToCart(item)"
+        class="w-75 btn btn-primary px-5 m-auto mt-2"
+        [disabled]="item.productQuantity == 0"
+      >
+        Add to Cart
+      </button>
+      <button
+        type="button"
+        #btn
+        (click)="getDetails(item.id)"
+        class="w-75 btn btn-primary px-5 m-auto mt-2"
+        [disabled]="item.productQuantity == 0"
+      >
+        Details
+      </button>
+      <!-- <button
+        type="button"
+        #btn
+        (click)="buy(item)"
+        class="w-75 btn btn-primary px-5 m-auto mt-2"
+        [disabled]="item.productQuantity == 0"
+        [ngStyle]="{ backgroundColor: item.productQuantity == 0 ? 'red' : '' }"
+      >
+        Buy
+      </button> -->
+    </div>
+   
+  </div>
+  } }
+</div>

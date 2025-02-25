@@ -1,0 +1,53 @@
+<div class="m-5 mt-0">
+    <label for="" class="form-label">Search</label>
+    <input
+      type="text"
+      class="form-control"
+      name=""
+      id=""
+      aria-describedby="helpId"
+      placeholder=""
+      [(ngModel)]="filterByName"
+    />
+
+  </div>
+
+  <app-child [filterByName]="filterByName" (productsInChild)="AddToCartInParent($event)"></app-child>
+
+
+
+  <div
+    class="table-responsive-sm p-5"
+  >
+    <table
+      class="table table-primary"
+    >
+      <thead>
+        
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+    @for (item of productsInParent; track $index) {
+
+      <tr class="">
+        <td scope="row">{{item.productName}}</td>
+        <td>{{item.productPrice}}</td>
+        <td>{{item.productQuantity}}</td>
+        <td >
+          <button class="bg-danger" (click)="deleteFromCart(item)">
+            Delete
+          </button>
+        </td>
+      </tr>
+
+    }
+
+      </tbody>
+    </table>
+  </div>
+  

@@ -1,0 +1,42 @@
+<div class="d-flex">
+    <div class="px-5 " >
+
+        <img [src]="product.productImgUrl" width="400" height="500" alt="">
+    </div>
+    <div class="py-5 "> 
+
+        <h1>
+            {{product.productName}}
+        </h1>
+        <p>
+            Price: {{product.productPrice | currency: 'EGP'}}
+        </p>
+        <p>
+            Details: {{product.productDetails}}
+        </p>
+    </div>
+</div>
+
+<div class="d-flex gap-5 m-auto p-5 ">
+
+    <button
+    type="button"
+    #btn
+    (click)="next()"
+    class=" btn btn-primary "
+    [disabled]="index == ids.length - 1"
+    >
+    Next
+    </button>
+    
+    <button
+    type="button"
+    #btn
+    (click)="prev()"
+    class=" btn btn-primary "
+    [disabled]="index == 0"
+    >
+    Previous
+    </button>
+
+</div>
