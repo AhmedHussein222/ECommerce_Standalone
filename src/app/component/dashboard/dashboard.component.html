@@ -1,0 +1,120 @@
+<main class="row">
+  <aside class="col-lg-2">
+    <h1>Dashboard</h1>
+  </aside>
+  <content class="col-lg-9">
+    
+ 
+    <h3>Add product</h3>
+    <form
+      class="form-group"
+      [formGroup]="addForm"
+      
+    > 
+    <input type="text"  #id hidden >
+    <div class="mb-3">
+      <label for="" class="form-label">Category</label>
+      <select
+        class="form-select form-select-lg"
+        name="Category"
+        id=""
+        formControlName="categoryId"
+      >
+        <option value=1>Category 1</option>
+        <option value=2>Category 2</option>
+        <option value=3>Category 3</option>
+      </select>
+    </div>
+    
+    <div class="form-outline mb-4">
+      <label class="form-label" for="">Title</label>
+      <input
+        type="text"
+        id="title"
+        class="form-control"
+        formControlName="productName"
+      />
+    </div>
+    <div class="form-outline mb-4">
+      <label class="form-label" for="">Price</label>
+      <input
+        type="number"
+        id=""
+        class="form-control"
+        formControlName="productPrice"
+        name="productPrice"
+      />
+    </div>
+    <div class="form-outline mb-4">
+      <label class="form-label" for="">Img Url</label>
+      <input
+        type="url"
+        id=""
+        class="form-control"
+        formControlName="productImgUrl"
+        name="productImgUrl"
+      />
+    </div>
+    <div class="form-outline mb-4">
+      <label class="form-label" for="">Quantity</label>
+      <input
+        type="number"
+        id=""
+        class="form-control"
+        formControlName="productQuantity"
+        name="productQuantity"
+      />
+    </div>
+  
+ 
+  
+    <button (click)="addProduct()   "    type="submit"  class="btn col-4 my-2 bg-primary me-5">Add Product</button>
+    <button (click)="updateProduct()" type="submit"  class="btn col-4 my-2 bg-primary " [hidden]="show">Update</button>
+    </form> 
+
+
+    
+    
+
+  <table
+    class="table"
+  >
+    <thead class="table-light">
+
+      <tr class="text-center">
+        <th>#</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Image</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+@for (product of products; track product.id) {
+
+    <tr class="table-primary text-center text-align-center align-middle">
+      <td class="">{{product.id}}</td>
+      <td>{{product.productName}}</td>
+      <td>{{product.productPrice}}$</td>
+      <td><img [src]="product.productImgUrl" height="80" width="50" alt=""></td>
+      <td >
+        <div class="  text-center " >
+          <button (click)="edit(product)"    class="btn btn-secondary me-3">Edit</button>
+
+          <!-- delete product using confirm material modal -->
+          <button (click)="openConfirmDialog(product.id || '')"   class="btn btn-danger">Delete</button>
+          <!-- <button (click)="deleteProduct(product.id || '')"  class="btn btn-danger">Delete</button> -->
+        </div>
+      </td>
+    </tr>
+
+        }
+
+    </tbody>
+
+  </table>
+
+
+
+  </content>
+</main>

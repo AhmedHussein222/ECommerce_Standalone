@@ -15,24 +15,23 @@ import { ProductApiService } from '../../Services/product-api.service';
 export class ParentComponent {
   
   products: Iproduct[] = [];
-constructor(private _productService:  ProductDataService
+constructor(
+    private _productService:  ProductDataService
   , private _productApi :ProductApiService
 ) {
+  // product from static services
   // this.products = this._productService.getProducts();
-
-
-  
-  
 }
 ngOnInit(): void {
+
+// product from  api services  
 this._productApi.getProducts().subscribe(
   {
-    next:(d)=>{console.log(d);
+    next:(data)=>{
+      this.products = data
     }
   }
-)
-   
- }
+)}
 
 
 

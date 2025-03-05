@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component,Input, EventEmitter, Output } from '@angular/core';
 import { Iproduct } from '../../Models/iproduct';
-import { TruncatePipe } from '../../Pipes/truncate.pipe';
-import { ProductDataService } from '../../Services/product-data.service';
+// import { TruncatePipe } from '../../Pipes/truncate.pipe';
 import { Router } from '@angular/router';
 import { ProductApiService } from '../../Services/product-api.service';
  
@@ -15,13 +14,13 @@ import { ProductApiService } from '../../Services/product-api.service';
 export class ChildComponent {
 products!: Iproduct[];
 constructor(
-  private _productService:  ProductDataService,
+  // private _productService:  ProductDataService,
   private _productApi:  ProductApiService,
   private router: Router
 
 )
  {
-  this.products = this._productService.getProducts();
+  // this.products = this._productService.getProducts();
   
   
   
@@ -128,61 +127,85 @@ constructor(
   // ];
 
   cat: number[] = [1, 2, 3];
-  getDetails(id:number){
+  getDetails(id:string){
     this.router.navigate(['main/details',id]);
   }
 
   ngOnInit(): void {
-    // this._productApi.getProducts().subscribe(
-    //   {
-    //     next:(data)=> {
-    //       this.products=data
-    //       console.log(data);
-          
 
-    //     },
+    this._productApi.getProducts().subscribe(
+      {
+        next:(data)=> {
+          this.productSearch=data
+        },
       
-    //   error:(err)=>{console.log(err );
-    //   }
+      error:(err)=>{
+        console.log(err );
+      }
   
-    //   }
-  
-    // )
-    this.productSearch = this.products;
+      })
+
+    // this.productSearch = this.products;
   }
 
-  buy(item: Iproduct) {
-    item.productQuantity = item.productQuantity - 1;
+  // buy(item: Iproduct) {
+  //   item.productQuantity = item.productQuantity - 1;
 
-    const img = document.getElementById(String(item.id));
-    if (img) {
-      img.style.display = 'none';
-    }
+  //   const img = document.getElementById(String(item.id));
+  //   if (img) {
+  //     img.style.display = 'none';
+  //   }
 
-    // const d = document.getElementById(String('div'+item.id));
-    // if (d) {
+  //   // const d = document.getElementById(String('div'+item.id));
+  //   // if (d) {
 
-    //   d.classList.remove('d-none');
-    //   d.classList.add('d-block');
-    // }
+  //   //   d.classList.remove('d-none');
+  //   //   d.classList.add('d-block');
+  //   // }
 
-    this.IsPurshased = !this.IsPurshased;
-  }
+  //   this.IsPurshased = !this.IsPurshased;
+  // }
 
   productSearch: Iproduct[] = [];
   @Input() set filterByName(value: string) {
-    this.productSearch = this.search(value);
+
+    // this.productSearch = this.search(value);
+    this.search(value);
+
   }
 
-  search(target: string): Iproduct[] {
+// static
+  // search(target: string): Iproduct[] {
+
+  search(target: string): void {
     
     // return this.products.filter((product) => {
     //   return product.productName.toLowerCase().includes(target.toLowerCase());
     // });
 
     // search using services--------------------------------------------------------------
-    return this._productService.filterByName(target) ?? []
+    // return this._productService.filterByName(target) ?? []
 
+    this._productApi.getProducts().subscribe({
+      next:(data)=>{
+        this.productSearch = data.filter((product)=>{
+         return product.productName.toLowerCase().includes(target.toLowerCase());
+
+        })
+    }})
+
+    // search using api--------------------------------------------------------------
+
+
+
+
+
+      // return this.Products.filter((product) => {
+
+        // return product.productName.toLowerCase().includes(value.toLowerCase());
+      // });
+    // }
+    
 
   }
 

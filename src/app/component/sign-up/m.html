@@ -1,0 +1,113 @@
+
+        
+        <form class="mx-1 mx-md-4" (ngSubmit)="addNewUser()"  #SignUp="ngForm">
+
+            <div class="">
+              <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                <label class="form-label" >Your Name</label>
+  
+                <input
+                  type="text"
+                  id="form3Example1c"
+                  class="form-control"
+                  [(ngModel)]="user.fname"
+                  #fname="ngModel"
+                  name="firstname"
+                  minlength="5"
+                  required
+                  [ngClass]="{'is-invalid': (fname.dirty || fname.touched)&& fname.invalid}"
+  
+                />
+                <span class="invalid-feedback">
+                  @if (fname.errors?.['required']) {
+                    <p>Name is required</p>
+                  }
+                  @else if (fname.errors?.['minlength']) {
+                    <p>min length is 5</p>
+                  }
+                </span>
+  
+  
+              </div>
+            </div>
+  
+            <div class="d-flex flex-row align-items-center mb-4">
+  
+              <div data-mdb-input-init class="form-outline flex-fill my-3 ">
+                <label class="form-label" for="form3Example3c">Email</label>
+  
+                <input 
+                type="email" 
+                id="form3Example3c" 
+                class="form-control" 
+                [(ngModel)]="user.email"
+                #email="ngModel"
+                name="email"
+                email
+                required
+                [ngClass]="{'is-invalid': (email.dirty || email.touched)&& email.invalid}"
+                
+                />
+                <span class="invalid-feedback">
+                  @if (email.errors?.['required']) {
+                    <p>Email is required</p>
+                  }
+                  @else if (email.errors?.['email']) {
+                    <p>Please enter a valid email</p>
+                  }
+                </span>
+                <span class="isvalid">
+                  
+                  @if (email.errors?.['email']) {
+                    <p>valid email</p>
+                  }
+  
+                </span>
+              </div>
+            </div>
+  
+            <div class="d-flex flex-row align-items-center mb-4">
+              <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                <label class="form-label" for="form3Example4c">Password</label>
+                
+                <input 
+                type="password" 
+                id="form3Example4c" 
+                class="form-control" 
+                [(ngModel)]="user.password"
+                  #pass="ngModel"
+                  name="password"
+                  required
+                  minlength="5"
+                  [ngClass]="{'is-invalid': (pass.dirty || pass.touched)&& pass.invalid}"
+                
+                  />
+                <span class="invalid-feedback">
+                  @if (fname.errors?.['required']) {
+                    <p>Password is required</p>
+                  }
+                  @else if (fname.errors?.['minlength']) {
+                    <p>Length is less</p>
+                  }
+                </span>
+  
+                
+                  
+              </div>
+              
+            </div>
+  
+  
+  
+            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+              <button
+                type="submit"
+                data-mdb-button-init
+                data-mdb-ripple-init
+                class="btn btn-primary btn-lg"
+                [disabled]="SignUp.invalid"
+              >
+                Suubmit
+              </button>
+            </div>
+          </form>

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductDataService } from '../../Services/product-data.service';
 import { Iproduct } from '../../Models/iproduct'
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ProductApiService } from '../../Services/product-api.service';
 
 @Component({
   selector: 'app-product-details',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
-export class ProductDetailsComponent {
+export class ProductDetailsComponent  implements OnInit{
   ids:number[]=[]
   product!:Iproduct ;
   currentId!:number;
@@ -21,27 +22,56 @@ export class ProductDetailsComponent {
   constructor(
     private url: ActivatedRoute,
     private _ProductDataService: ProductDataService,
+    private _ProductApi: ProductApiService,
     private router: Router
 
   ) {
-    this.ids=this._ProductDataService.getIds()
+    // get ids from static services
+    // this.ids=this._ProductDataService.getIds()
 
-
-      this.url.paramMap.subscribe((params) => {
+    // get ids from api services
+    this._ProductApi.getProducts().subscribe(
+      {
+        next:(products)=>{
+          this.ids=products.map(p=> Number(p.id))
+          console.log(this.ids)
+          
+        }
+      }
+    )
+    
+    this.url.paramMap.subscribe((params) => {
          this.currentId = Number(params.get('id'))
-         let check = this._ProductDataService.getProductByID(this.currentId);
-   
-         if(check) {
-           this.product = check;
-           console.log(this.product);
+
+        //  get product by  static
+        //  let check = this._ProductDataService.getProductByID(this.currentId);
+        //  if(check) {
+        //    this.product = check;
+        //    console.log(this.product);
            
-         } else {
-           this.router.navigate(['**'])
+        //  } else {
+        //    this.router.navigate(['**'])
            
-         }
+        //  }
          
       });
    }
+  ngOnInit(): void {
+
+    this._ProductApi.getProductByID(this.currentId).subscribe({
+      next:(product)=>{
+        this.product = product
+        
+      },
+      error:()=>{
+           this.router.navigate(['**'])
+
+      }
+
+    })
+  }
+
+
 
   next() {
     this.index = this.ids.indexOf(this.currentId);
